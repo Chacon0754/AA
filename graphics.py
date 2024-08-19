@@ -1,3 +1,10 @@
+# Autores:  
+# Martin Eduardo Chacon Orduño
+# Carlos Esteban Barragán Bernal
+# Luz Mariam Garcia Castillo
+# Leonardo Franco Bulkley
+
+
 # Para que les funcione necesitan instalar la libreria matplotlib
 # se instala con el comando pip install matplotlib
 import matplotlib.pyplot as plt

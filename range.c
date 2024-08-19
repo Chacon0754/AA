@@ -1,3 +1,8 @@
+//  Autores:  
+//  Martin Eduardo Chacon Orduño
+//  Carlos Esteban Barragán Bernal
+//  Luz Mariam Garcia Castillo
+//  Leonardo Franco Bulkley
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
