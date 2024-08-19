@@ -1,6 +1,6 @@
 # Autores:  
-# Martin Eduardo Chacon Orduño
-# Carlos Esteban Barragán Bernal
+# Martin Eduardo Chacon Orduño - 351840
+# Carlos Esteban Barragán Bernal - 359299
 # Luz Mariam Garcia Castillo
 # Leonardo Franco Bulkley
 
