@@ -1,8 +1,8 @@
 # Autores:  
 # Martin Eduardo Chacon Orduño - 351840
 # Carlos Esteban Barragán Bernal - 359299
-# Luz Mariam Garcia Castillo
-# Leonardo Franco Bulkley
+# Luz Mariam Garcia Castillo - 348409
+# Leonardo Franco Bulkley - 377288
 
 
 # Para que les funcione necesitan instalar la libreria matplotlib
