@@ -1,0 +1,27 @@
+# Ignorar archivos objeto
+*.o
+*.obj
+
+# Ignorar ejecutables en Linux/Mac (sin extensión) y Windows (.exe)
+a.out
+*.out
+*.exe
+
+# Ignorar archivos de vinculación incrementada
+*.ilk
+
+# Ignorar archivos de depuración
+*.pdb
+
+# Ignorar directorios de compilación
+/build/
+/bin/
+/obj/
+
+# Ignorar carpeta de configuración de Visual Studio Code
+.vscode/
+
+# Ignorar archivos de respaldo creados por editores
+*~
+*.swp
+
