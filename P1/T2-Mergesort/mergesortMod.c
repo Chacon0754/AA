@@ -34,6 +34,9 @@ int main(int argc, const char *argv[]) {
     double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
     printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 
+    // Mostrar el número total de comparaciones realizadas
+    printf("Número total de comparaciones: %d\n", contadorComparaciones);
+
     // Mostrar el arreglo ordenado si es pequeño
     if (t < 1000) {
         printf("Arreglo ordenado:\n");
@@ -41,9 +44,6 @@ int main(int argc, const char *argv[]) {
             printf("%d ", arreglo[i]);
         printf("\n");
     }
-
-    // Mostrar el número total de comparaciones realizadas
-    printf("Número total de comparaciones: %d\n", contadorComparaciones);
 
     // Liberar la memoria asignada
     free(arreglo);
