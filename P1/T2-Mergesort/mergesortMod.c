@@ -2,59 +2,88 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Declaración de funciones
 void merge(int arr[], int izq, int medio, int der);
 void mergeSort(int arr[], int izq, int der);
-void readFiles(int *arreglo, int size);
+void readFiles(int *arreglo, int size, const char *nombreArchivo);
 
 // Variable global para contar el número de comparaciones
 int contadorComparaciones = 0;
 
 int main(int argc, const char *argv[]) {
-    int t;
+    int opcion;
+    do {
+        printf("Menu:\n");
+        printf("1. Ordenar arreglo desde archivo\n");
+        printf("2. Salir\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
 
-    // Pedir el tamaño del arreglo al usuario
-    printf("Ingrese el tamaño del arreglo: ");
-    scanf("%d", &t);
+        switch(opcion) {
+            case 1: {
+                int t;
+                char nombreArchivo[100];
 
-    // Crear el arreglo dinámicamente
-    int *arreglo = (int *)malloc(t * sizeof(int));
-    if (arreglo == NULL) {
-        printf("No se pudo asignar memoria.\n");
-        return 1;
-    }
+                // Pedir el tamaño del arreglo al usuario
+                printf("Ingrese el tamaño del arreglo: ");
+                scanf("%d", &t);
 
-    // Llenar el arreglo con números del archivo
-    readFiles(arreglo, t);
+                // Pedir el nombre del archivo al usuario
+                printf("Ingrese el nombre del archivo de datos: ");
+                scanf("%s", nombreArchivo);
 
-    // Medir el tiempo de ejecución de Merge Sort
-    clock_t inicio = clock();
-    mergeSort(arreglo, 0, t - 1);
-    clock_t fin = clock();
+                // Crear el arreglo dinámicamente
+                int *arreglo = (int *)malloc(t * sizeof(int));
+                if (arreglo == NULL) {
+                    printf("No se pudo asignar memoria.\n");
+                    return 1;
+                }
 
-    double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
-    printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
+                // Llenar el arreglo con números del archivo
+                readFiles(arreglo, t, nombreArchivo);
 
-    // Mostrar el número total de comparaciones realizadas
-    printf("Número total de comparaciones: %d\n", contadorComparaciones);
+                // Medir el tiempo de ejecución de Merge Sort
+                clock_t inicio = clock();
+                mergeSort(arreglo, 0, t - 1);
+                clock_t fin = clock();
 
-    // Mostrar el arreglo ordenado si es pequeño
-    if (t < 1000) {
-        printf("Arreglo ordenado:\n");
-        for (int i = 0; i < t; i++)
-            printf("%d ", arreglo[i]);
-        printf("\n");
-    }
+                double tiempo_transcurrido = (double)(fin - inicio) / CLOCKS_PER_SEC;
+                printf("Tiempo transcurrido: %f segundos\n", tiempo_transcurrido);
 
-    // Liberar la memoria asignada
-    free(arreglo);
+                // Mostrar el arreglo ordenado si es pequeño
+                if (t < 1000) {
+                    printf("Arreglo ordenado:\n");
+                    for (int i = 0; i < t; i++)
+                        printf("%d ", arreglo[i]);
+                    printf("\n");
+                }
+
+                // Mostrar el número total de comparaciones realizadas
+                printf("Número total de comparaciones: %d\n", contadorComparaciones);
+
+                // Liberar la memoria asignada
+                free(arreglo);
+
+                // Reiniciar el contador de comparaciones para la siguiente ejecución
+                contadorComparaciones = 0;
+
+                break;
+            }
+            case 2:
+                printf("Saliendo del programa...\n");
+                break;
+            default:
+                printf("Opción no válida. Por favor, seleccione una opción válida.\n");
+                break;
+        }
+    } while(opcion != 2);
 
     return 0;
 }
 
 // Función para leer los números del archivo
-void readFiles(int *arreglo, int size) {
+void readFiles(int *arreglo, int size, const char *nombreArchivo) {
     FILE *file;
-    const char *nombreArchivo = "peor.txt";
 
     // Abrir el archivo en modo lectura
     file = fopen(nombreArchivo, "r");
@@ -151,5 +180,3 @@ void mergeSort(int arr[], int izq, int der) {
         merge(arr, izq, medio, der);
     }
 }
-
-
