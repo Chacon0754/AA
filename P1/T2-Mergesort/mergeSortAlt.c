@@ -115,29 +115,29 @@ void readFiles(int *arreglo, int size, const char *nombreArchivo) {
 
 void randomNumbers(int *arr, int size){
     srand(time(0));
-    int ni = 4; // (rand() % (size-1)/2);
+    int ni =  (rand() % (size)/2);
     int a;
     int b;
     int temp;
     printf("\nSize: %i. ni: %i.\n", size, ni);
-    printf("Arreglo original");
-    for (int i = 0; i < size;i++){
-        printf("indice: %i Valor: %i\n", i, arr[i]);
-    }
+    // printf("Arreglo original");
+    // for (int i = 0; i < size;i++){
+    //     printf("indice: %i Valor: %i\n", i, arr[i]);
+    // }
 
     for (int i = 0; i < ni; i++){
         
         a = (rand() % (size));
         b = (rand() % (size));
         temp = arr[a];
-        printf("\na: %i, b: %i, temp: %i", a, b, temp);
+        // printf("\na: %i, b: %i, temp: %i", a, b, temp);
         arr[a] = arr[b];
         arr[b] = temp;
     }
-    printf("\nArreglo modificado\n");
-    for (int i = 0; i < size;i++){
-        printf("indice: %i Valor: %i\n", i, arr[i]);
-    }
+    // printf("\nArreglo modificado\n");
+    // for (int i = 0; i < size;i++){
+    //     printf("indice: %i Valor: %i\n", i, arr[i]);
+    // }
 }
 
 
