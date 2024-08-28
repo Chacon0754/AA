@@ -11,6 +11,7 @@
 void merge(int arr[], int izq, int medio, int der);
 void mergeSort(int arr[], int izq, int der);
 void readFiles(int *arreglo, int size, const char *nombreArchivo);
+void randomNumbers(int *arr, int size);
 
 // Variable global para contar el número de comparaciones
 int contadorComparaciones = 0;
@@ -46,7 +47,9 @@ int main(int argc, const char *argv[]) {
 
                 // Llenar el arreglo con números del archivo
                 readFiles(arreglo, t, nombreArchivo);
-
+                
+                //Aleatorizar la entrada
+                randomNumbers(arreglo, t);
                 // Medir el tiempo de ejecución de Merge Sort
                 clock_t inicio = clock();
                 mergeSort(arreglo, 0, t - 1);
@@ -109,6 +112,34 @@ void readFiles(int *arreglo, int size, const char *nombreArchivo) {
     // Cerrar el archivo
     fclose(file);
 }
+
+void randomNumbers(int *arr, int size){
+    srand(time(0));
+    int ni =  (rand() % (size)/2);
+    int a;
+    int b;
+    int temp;
+    printf("\nSize: %i. ni: %i.\n", size, ni);
+    // printf("Arreglo original");
+    // for (int i = 0; i < size;i++){
+    //     printf("indice: %i Valor: %i\n", i, arr[i]);
+    // }
+
+    for (int i = 0; i < ni; i++){
+        
+        a = (rand() % (size));
+        b = (rand() % (size));
+        temp = arr[a];
+        // printf("\na: %i, b: %i, temp: %i", a, b, temp);
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+    // printf("\nArreglo modificado\n");
+    // for (int i = 0; i < size;i++){
+    //     printf("indice: %i Valor: %i\n", i, arr[i]);
+    // }
+}
+
 
 // Función para fusionar dos subarreglos
 void merge(int arr[], int izq, int medio, int der) {
@@ -176,7 +207,7 @@ void merge(int arr[], int izq, int medio, int der) {
 void mergeSort(int arr[], int izq, int der) {
     contadorComparaciones++; // Comparación en el if
     if (izq < der) {
-
+        
         //El rango se delimita de izquierda a derecha
         int medio = izq + rand() % (der - izq + 1);
 
