@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-long long int fibonacciRecursivo(int n);
-long long int fibonacciIterativo(int n);
+unsigned long long int fibonacciRecursivo(int n);
+unsigned long long int fibonacciIterativo(int n);
 
 int main(int argc, char const *argv[])
 {
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
                 printf("\nFibonacci Recursivo:\n");
                 start = clock();
                 for (int i=0; i<=num; i++){
-                    printf("%lld, ", fibonacciRecursivo(i));
+                    printf("%llu, ", fibonacciRecursivo(i));
                 }
                 end = clock();
                 cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
                 start = clock();
                 printf("\nFibonacci Iterativo:\n");
                 for (int i=0; i<=num; i++){
-                    printf("%lld, ", fibonacciIterativo(i));
+                    printf("%llu, ", fibonacciIterativo(i));
                 }
                 end = clock();
                 cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -52,14 +52,14 @@ int main(int argc, char const *argv[])
                 scanf("%i", &num);
                 printf("\nFibonacci Recursivo:\n");
                 start = clock();
-                printf("F(%i) = %lld ",num, fibonacciRecursivo(num));
+                printf("F(%i) = %llu ",num, fibonacciRecursivo(num));
                 end = clock();
                 cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
                 printf("\nTiempo de ejecucion: %f\n \n", cpuTimeUsed);
 
                 start = clock();
                 printf("\nFibonacci Iterativo:\n");
-                printf("F(%i) = %lld ",num, fibonacciIterativo(num));
+                printf("F(%i) = %llu ",num, fibonacciIterativo(num));
                 end = clock();
                 cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
                 printf("\nTiempo de ejecucion: %f\n \n", cpuTimeUsed);
@@ -73,7 +73,7 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-long long int fibonacciRecursivo(int n){
+unsigned long long int fibonacciRecursivo(int n){
 if (n < 2){
     return n;
 }
@@ -82,13 +82,13 @@ else {
 }
 }
 
-long long int fibonacciIterativo(int n){
+unsigned long long int fibonacciIterativo(int n){
     if (n==0)
         return 0;
     if (n==1)
         return 1;
 
-    long long int fib1, fib2, fibr;
+    unsigned long long int fib1, fib2, fibr;
     fib1 = 0;
     fib2 = 1;
     for (int i = 2; i <= n; i++){
