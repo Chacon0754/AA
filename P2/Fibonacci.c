@@ -68,6 +68,8 @@ int main(int argc, char const *argv[])
                 printf("Gracias por usar este programa.");
                 break;
         }
+        system("pause");
+        system("cls");
     } while (opt != 9);
 
     return 0;
