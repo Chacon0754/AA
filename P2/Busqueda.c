@@ -76,4 +76,5 @@ int main() {
 
     free(arr);  // Liberamos la memoria
     return 0;
+    system("pause");
 }

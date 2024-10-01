@@ -5,7 +5,6 @@
 //  Carlos Esteban Barragán Bernal - 359299
 //  Luz Mariam Garcia Castillo - 348409
 //  Leonardo Franco Bulkley - 377288
-//Pendeitne
 
 #include <stdio.h>
 
@@ -44,6 +43,7 @@ int main(int argc, char const *argv[])
 
     free(arr);
     return 0;
+    system("pause");
 }
 
 MinMax findMinMax(int arr[], int start, int end){
