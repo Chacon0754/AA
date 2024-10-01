@@ -5,6 +5,7 @@
 //  Carlos Esteban Barragán Bernal - 359299
 //  Luz Mariam Garcia Castillo - 348409
 //  Leonardo Franco Bulkley - 377288
+//Pendeitne
 
 #include <stdio.h>
 
@@ -35,15 +36,7 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    printf("Enter %d elements:\n", n);
-    for (int i = 0; i < n; i++){
-        printf("Element [%d]: ", i);
-        if (scanf("%d", &arr[i]) != 1){
-            printf("Invalid input. \n");
-            free(arr);
-            return 1;
-        }
-    }
+    generateUnorderedArray(arr, n);  // Generamos el arreglo
 
     MinMax result = findMinMax(arr, 0, n - 1);
     printf("Minimum: %d\n", result.minimum);
@@ -81,4 +74,17 @@ MinMax findMinMax(int arr[], int start, int end){
     result.maximum = (left.maximum > right.maximum) ? left.maximum : right.maximum;
 
     return result;
+}
+void generateUnorderedArray(int arr[], int n) {
+    srand(time(NULL));
+
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 100;  // Generar números aleatorios entre 0 y 99
+    }
+
+    printf("Generated unordered array: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 }
