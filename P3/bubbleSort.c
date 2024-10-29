@@ -10,15 +10,17 @@
 #include <stdlib.h>
 #include <time.h>
 
+int *originalArr = NULL;
 int *arr = NULL;
 int counter;
-int exchanges;
-int comparisons;
+long long exchanges;
+long long comparisons;
 int arraySize;
+int totalElements;
 
 void bubbleSort();
 void showArray(int size);
-void readFile(char filename[20], int size);
+void readFile(char filename[20]);
 
 int main(int argc, char const *argv[])
 {
@@ -55,7 +57,16 @@ int main(int argc, char const *argv[])
             printf("Saliendo del programa.\n");
             return 0;
         default:
-            printf("Opcion inválida. Intente de nuevo.\n");
+            printf("Opcion invalida. Intente de nuevo.\n");
+            continue;
+        }
+        // Leer archivo
+        readFile(filename);
+
+        // En caso de haber un error se pasa al siguiente test
+        if (originalArr == NULL)
+        {
+            printf("No se pudo leer el archivo o hubo un error en la asignacion de memoria.\n");
             continue;
         }
 
@@ -64,16 +75,22 @@ int main(int argc, char const *argv[])
         {
             arraySize = testSizes[i];
 
-            // Leer el archivo con el tamaño actual
-            readFile(filename, arraySize);
+            // Asignar memoria a Array
+            arr = (int *)malloc(arraySize * sizeof(int));
 
             if (arr == NULL)
             {
-                printf("No se pudo leer el archivo o hubo un error en la asignación de memoria.\n");
-                continue; // Pasamos al siguiente test si hubo un error
+                printf("No se pudo leer el archivo o hubo un error en la asignacion de memoria.\n");
+                continue;
             }
 
-            printf("\n\nProbando con tamaño de arreglo: %d\n", arraySize);
+            // Copiar el arreglo original a nuestro arreglo con el que probaremos dependiendo del numero de prueba
+            for (int j = 0; j < arraySize; j++)
+            {
+                arr[j] = originalArr[j];
+            }
+
+            printf("\n\nProbando con tamano de arreglo: %d\n", arraySize);
             if (arraySize <= 100)
             {
                 printf("Arreglo original:\n");
@@ -92,12 +109,16 @@ int main(int argc, char const *argv[])
                 printf("\n\nArreglo ordenado:\n");
                 showArray(arraySize);
             }
-            printf("\nComparaciones: %i. Intercambios: %i. Tiempo usado: %f segundos\n", comparisons, exchanges, cpuTimeUsed);
+            printf("\nComparaciones: %lld. Intercambios: %lld. Tiempo usado: %f segundos\n", comparisons, exchanges, cpuTimeUsed);
 
             // Liberar la memoria del arreglo dinámico
             free(arr);
             arr = NULL;
         }
+
+        free(originalArr);
+        originalArr = NULL;
+
     } while (option != 0);
 
     return 0;
@@ -125,6 +146,10 @@ void bubbleSort()
                 exchanges++;
             }
         }
+        if (counter == 0)
+        {
+            break;
+        }
     }
 }
 
@@ -137,7 +162,7 @@ void showArray(int size)
     }
 }
 
-void readFile(char filename[20], int size)
+void readFile(char filename[20])
 {
     FILE *file = fopen(filename, "r");
     if (file == NULL)
@@ -146,23 +171,26 @@ void readFile(char filename[20], int size)
         return;
     }
 
-    arr = (int *)malloc(size * sizeof(int));
-    if (arr == NULL)
+    totalElements = 0;
+    int temp;
+    while (fscanf(file, "%d", &temp) == 1)
+    {
+        totalElements++;
+    }
+
+    originalArr = (int *)malloc(totalElements * sizeof(int));
+    if (originalArr == NULL)
     {
         printf("No se pudo asignar memoria para el arreglo.\n");
         fclose(file);
         return;
     }
 
-    for (int i = 0; i < size; i++)
+    rewind(file);
+    for (int i = 0; i < totalElements; i++)
     {
-        if (fscanf(file, "%d", &arr[i]) != 1)
-        {
-            printf("Error al leer el número en la posición %d\n", i);
-            free(arr);
-            arr = NULL;
-            fclose(file);
-            return;
-        }
+        fscanf(file, "%d", &originalArr[i]);
     }
+
+    fclose(file);
 }
