@@ -8,6 +8,7 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import copy
 import sys
 import os 
 
@@ -33,8 +34,7 @@ def leer_datos_archivo(nombre_archivo, num_elementos=50):
         sys.exit(1)
 
 # Algoritmo Bubble Sort con animación
-def bubble_sort_animado(datos):
-    import copy  
+def bubble_sort_animado(datos): 
     fig, ax = plt.subplots()
     barra_rects = ax.bar(range(len(datos)), datos, align="edge")
     ax.set_xlim(0, len(datos))
