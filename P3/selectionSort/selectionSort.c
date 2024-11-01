@@ -1,59 +1,166 @@
+//  Elaboracion: 01/11/2024
+//  SelectionSort
+//  Autores:
+//  Martin Eduardo Chacon Orduño - 351840
+//  Carlos Esteban Barragán Bernal - 359299
+//  Luz Mariam Garcia Castillo - 348409
+//  Leonardo Franco Bulkley - 377288
+
 #include <stdio.h>
 #include <time.h>
 
-void selectionSort(int arr[], int n, int *comparisons);
-void printArray(int arr[], int n);
+int *originalarr = NULL;
+int *arr = NULL;
+long long exchanges;
+long long comparisons;
+int arraySize;
+int totalElements;
 
+void selectionSort();
+void showArray(int size);
+void readFile(char filename[20]);
 
-
-int main() {
-    int arr[] = {64, 25, 12, 22, 11};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int comparisons = 0;
-
+int main(int argc, char const *argv[])
+{
     clock_t start, end;
-    start = clock();
+    double cpuTimeUsed;
+    int testSizes[] = {50, 100, 1000, 10000, 100001};
+    int numTests = sizeof(testSizes) / sizeof(testSizes[0]);
+    int option;
+    char filename[20];
 
-    selectionSort(arr, n, &comparisons);
+    do {
+        printf("\nSeleccione un archivo para las pruebas:\n");
+        printf("1. bestCase.txt\n");
+        printf("2. averageCase.txt\n");
+        printf("3. worstCase.txt\n");
+        printf("0. Salir\n");
+        printf("Opcion: ");
+        scanf("%d", &option);
 
-    end = clock();
+        switch (option){
+            case 1:
+                snprintf(filename, sizeof(filename), "bestCase.txt");
+                break;
+            case 2:
+                snprintf(filename, sizeof(filename), "averageCase.txt");
+                break;
+            case 3:
+                snprintf(filename, sizeof(filename), "worstCase.txt");
+                break;
+            case 0:
+                printf("Saliendo del programa\n");
+                return 0;
+            default:
+                printf("Opcion invalida. Intente de nuevo\n");
+                continue;
+        }
 
-    double time = ((double)(end - start)) / CLOCKS_PER_SEC;
+        readFile(filename);
 
+        if (originalarr == NULL){
+            printf("Error al leer el archivo o al asignar memoria\n");
+            continue;
+        }
 
-    printf("Arreglo ordenado: \n");
-    printArray(arr, n);
+        for (int i = 0; i < numTests; i++){
 
-    printf("Numero de comparaciones: %d\n", comparisons);
-    printf("Tiempo de ejecucion: %f segundos\n", time);
+            arraySize = testSizes[i];
+
+            arr = (int *)malloc(arraySize * sizeof(int));
+            if (arr == NULL){
+                printf("No se pudo asignar memoria al arreglo\n");
+                continue;
+            }
+
+            for (int j = 0; j < arraySize; j++)
+            {
+                arr[j] = originalarr[j];
+            }
+
+            printf("Probando con arreglo de tamano: %d\n", arraySize);
+            if (arraySize <= 100){
+                printf("Arreglo original:\n");
+                showArray(arraySize);
+            }
+
+            start = clock();
+            selectionSort();
+            end = clock();
+
+            cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+            if (arraySize <= 100){
+                printf("\nArreglo ordenado:\n");
+                showArray(arraySize);
+            }
+
+            printf("\nComparaciones: %lld. Intercambios: %lld. Tiempo usado: %f segundos\n", comparisons, exchanges, cpuTimeUsed);
+            free(arr);
+            arr = NULL;
+        }
+
+        free(originalarr);
+        originalarr = NULL;
+
+    } while (option != 0);
 
     return 0;
 }
 
-void selectionSort(int arr[], int n, int *comparisons) {
-    for (int i = 0; i < n - 1; i++) {
-        int min = i;
+void selectionSort(){
+    int min, i, j, temp;
+    exchanges = comparisons = 0;
 
-        // Encuentra el elemento mínimo en el arreglo no ordenado
-        for (int j = i + 1; j < n; j++) {
-            (*comparisons)++; 
-            if (arr[j] < arr[min]) {
+    for (i = 0; i < arraySize - 1; i++){
+        min = i;
+        for (j = i + 1; j < arraySize; j++){
+            comparisons++;
+            if (arr[j] < arr[min]){
                 min = j;
             }
         }
 
-        // Intercambia el elemento mínimo con el primer elemento no ordenado
-        if (min != i) {
-            int temp = arr[min];
+        if (min != i ){
+            temp = arr[min];
             arr[min] = arr[i];
             arr[i] = temp;
+            exchanges++;
         }
     }
 }
 
-void printArray(int arr[], int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
+void showArray(int size){
+    for (int i = 0; i < size; i++){
+        printf("%i, ", arr[i]);
     }
     printf("\n");
+}
+
+void readFile(char filename[20]){
+    FILE *file = fopen(filename, "r");
+    if (file == NULL){
+        printf("No se pudo abrir el archivo %s\n", filename);
+        return;
+    }
+
+    totalElements = 0;
+    int temp;
+    while (fscanf(file, "%d", &temp) == 1){
+        totalElements++;
+    }
+
+    originalarr = (int *)malloc(totalElements * sizeof(int));
+    if (originalarr == NULL){
+        printf("No se pudo asignar memoria para el arreglo\n");
+        fclose(file);
+        return;
+    }
+
+    rewind(file);
+    for (int i = 0; i < totalElements; i++){
+        fscanf(file, "%d", &originalarr[i]);
+    }
+
+    fclose(file);
 }

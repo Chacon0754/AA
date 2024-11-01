@@ -12,7 +12,6 @@
 
 int *originalArr = NULL;
 int *arr = NULL;
-int counter;
 long long exchanges;
 long long comparisons;
 int arraySize;
