@@ -5,7 +5,7 @@ a = Analysis(
     ['bubbleSortAnimation.py'],
     pathex=[],
     binaries=[],
-    datas=[('averageCase.txt', '.'), ('bestCase.txt', '.'), ('worstCase.txt', '.')],
+    datas=[('averageCase.txt', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -29,10 +29,16 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+)
+app = BUNDLE(
+    exe,
+    name='bubbleSortAnimation.app',
+    icon=None,
+    bundle_identifier=None,
 )
