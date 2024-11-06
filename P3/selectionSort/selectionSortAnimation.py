@@ -5,6 +5,8 @@
 #  Carlos Esteban Barragán Bernal - 359299
 #  Luz Mariam Garcia Castillo - 348409
 #  Leonardo Franco Bulkley - 377288
+#  se debe tener instalado matplotlib para que funcione la animacion
+# Tambien debe estar el archivo averageCase.txt en la misma carpeta
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
