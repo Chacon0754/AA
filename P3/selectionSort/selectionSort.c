@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
 {
     clock_t start, end;
     double cpuTimeUsed;
-    int testSizes[] = {50, 100, 1000, 10000, 100001};
+    int testSizes[] = {50, 100, 1000, 10000, 100000, 1000000};
     int numTests = sizeof(testSizes) / sizeof(testSizes[0]);
     int option;
     char filename[20];
