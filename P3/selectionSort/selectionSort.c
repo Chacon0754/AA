@@ -7,6 +7,7 @@
 //  Leonardo Franco Bulkley - 377288
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 int *originalarr = NULL;
@@ -102,6 +103,8 @@ int main(int argc, char const *argv[])
 
         free(originalarr);
         originalarr = NULL;
+        system("pause");
+        system("cls");
 
     } while (option != 0);
 
