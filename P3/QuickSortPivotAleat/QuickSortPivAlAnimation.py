@@ -1,5 +1,5 @@
-#  Elaboracion: 01/11/2024
-#  SelectionSort
+#  Elaboracion: 11/11/2024
+#  QuickSort
 #  Autores:
 #  Martin Eduardo Chacon Orduño - 351840
 #  Carlos Esteban Barragán Bernal - 359299
