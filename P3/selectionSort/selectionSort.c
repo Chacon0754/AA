@@ -17,7 +17,7 @@ long long comparisons;
 int arraySize;
 int totalElements;
 
-void selectionSort();
+void radixSort();
 void showArray(int size);
 void readFile(char filename[20]);
 
@@ -86,7 +86,7 @@ int main(int argc, char const *argv[])
             }
 
             start = clock();
-            selectionSort();
+            radixSort();
             end = clock();
 
             cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -110,28 +110,45 @@ int main(int argc, char const *argv[])
 
     return 0;
 }
-
-void selectionSort(){
-    int min, i, j, temp;
-    exchanges = comparisons = 0;
-
-    for (i = 0; i < arraySize - 1; i++){
-        min = i;
-        for (j = i + 1; j < arraySize; j++){
-            comparisons++;
-            if (arr[j] < arr[min]){
-                min = j;
-            }
-        }
-
-        if (min != i ){
-            temp = arr[min];
-            arr[min] = arr[i];
-            arr[i] = temp;
-            exchanges++;
-        }
-    }
+// Función para obtener el valor máximo en el arreglo
+int obtenerMaximo(int arr[], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max)
+            max = arr[i];
+    return max;
 }
+
+// Función de Counting Sort para un dígito específico
+void countingSort(int arr[], int n, int digito) {
+    int final[n]; // Arreglo de salida para ordenar temporalmente
+    int count[10] = {0};
+
+    // Cuenta la ocurrencia de cada dígito
+    for (int i = 0; i < n; i++)
+        count[(arr[i] / digito) % 10]++;
+
+    // Modifica count[i] para tener la posición real en final[]
+    for (int i = 1; i < 10; i++)
+        count[i] += count[i - 1];
+
+    // Construye el arreglo de salida
+    for (int i = n - 1; i >= 0; i--) {
+        final[count[(arr[i] / digito) % 10] - 1] = arr[i];
+        count[(arr[i] / digito) % 10]--;
+    }
+
+    for (int i = 0; i < n; i++)
+        arr[i] = final[i];
+}
+
+void radixSort(int arr[], int n) {
+    int max = obtenerMaximo(arr, n);
+
+    for (int digito = 1; max / digito > 0; digito *= 10)
+        countingSort(arr, n, digito);
+}
+
 
 void showArray(int size){
     for (int i = 0; i < size; i++){
