@@ -129,12 +129,10 @@ void countingSort(int arr[], int n, int digito) {
     // Cuenta la ocurrencia de cada dígito
     for (int i = 0; i < n; i++)
         count[(arr[i] / digito) % 10]++;
-         comparisons++;  // Una comparación en cada iteración del bucle
 
     // Modifica count[i] para tener la posición real en final[]
     for (int i = 1; i < 10; i++)
         count[i] += count[i - 1];
-        comparisons++;  // Una comparación por iteración del bucle
 
     // Construye el arreglo de salida
     for (int i = n - 1; i >= 0; i--) {
