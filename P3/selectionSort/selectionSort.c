@@ -17,9 +17,10 @@ long long comparisons;
 int arraySize;
 int totalElements;
 
-void radixSort();
+void selectionSort();
 void showArray(int size);
 void readFile(char filename[20]);
+void fillSemiSortedArray(int arr[], int n);
 
 int main(int argc, char const *argv[])
 {
@@ -35,6 +36,7 @@ int main(int argc, char const *argv[])
         printf("1. bestCase.txt\n");
         printf("2. averageCase.txt\n");
         printf("3. worstCase.txt\n");
+        printf("4. SemiSorted Array\n");
         printf("0. Salir\n");
         printf("Opcion: ");
         scanf("%d", &option);
@@ -48,6 +50,20 @@ int main(int argc, char const *argv[])
                 break;
             case 3:
                 snprintf(filename, sizeof(filename), "worstCase.txt");
+                break;
+            case 4:
+                printf("Generando arreglo semiordenado...\n");
+                totalElements = testSizes[numTests - 1];
+                originalarr = (int *)malloc(totalElements * sizeof(int));
+                if (originalarr == NULL)
+                {
+                    printf("No se pudo asignar memoria para el arreglo.\n");
+                    continue;
+                }
+
+                srand(time(0));
+                fillSemiSortedArray(originalarr, totalElements);
+                printf("Arreglo semiordenado generado.\n");
                 break;
             case 0:
                 printf("Saliendo del programa\n");
@@ -86,7 +102,7 @@ int main(int argc, char const *argv[])
             }
 
             start = clock();
-            radixSort();
+            selectionSort();
             end = clock();
 
             cpuTimeUsed = ((double)(end - start)) / CLOCKS_PER_SEC;
@@ -111,42 +127,24 @@ int main(int argc, char const *argv[])
     return 0;
 }
 // Función para obtener el valor máximo en el arreglo
-int obtenerMaximo(int arr[], int n) {
-    int max = arr[0];
-    for (int i = 1; i < n; i++)
-        if (arr[i] > max)
-            max = arr[i];
-    return max;
-}
-
-// Función de Counting Sort para un dígito específico
-void countingSort(int arr[], int n, int digito) {
-    int final[n]; // Arreglo de salida para ordenar temporalmente
-    int count[10] = {0};
-
-    // Cuenta la ocurrencia de cada dígito
-    for (int i = 0; i < n; i++)
-        count[(arr[i] / digito) % 10]++;
-
-    // Modifica count[i] para tener la posición real en final[]
-    for (int i = 1; i < 10; i++)
-        count[i] += count[i - 1];
-
-    // Construye el arreglo de salida
-    for (int i = n - 1; i >= 0; i--) {
-        final[count[(arr[i] / digito) % 10] - 1] = arr[i];
-        count[(arr[i] / digito) % 10]--;
+void selectionSort(){
+    int min, i, j, temp;
+    exchanges = comparisons = 0;
+    for (i = 0; i < arraySize - 1; i++){
+        min = i;
+        for (j = i + 1; j < arraySize; j++){
+            comparisons++;
+            if (arr[j] < arr[min]){
+                min = j;
+            }
+        }
+        if (min != i ){
+            temp = arr[min];
+            arr[min] = arr[i];
+            arr[i] = temp;
+            exchanges++;
+        }
     }
-
-    for (int i = 0; i < n; i++)
-        arr[i] = final[i];
-}
-
-void radixSort(int arr[], int n) {
-    int max = obtenerMaximo(arr, n);
-
-    for (int digito = 1; max / digito > 0; digito *= 10)
-        countingSort(arr, n, digito);
 }
 
 
@@ -183,4 +181,22 @@ void readFile(char filename[20]){
     }
 
     fclose(file);
+}
+
+void fillSemiSortedArray(int arr[], int n)
+{
+    int blockSize = n / 10; // Tamaño del bloque como 10% del arreglo
+    int lowerBound, upperBound;
+
+    for (int i = 0; i < n; i += blockSize)
+    {
+        lowerBound = i;
+        upperBound = i + blockSize - 1;
+
+        // Llenar el bloque con valores aleatorios dentro del rango
+        for (int j = i; j < i + blockSize && j < n; j++)
+        {
+            arr[j] = (rand() % blockSize) + lowerBound;
+        }
+    }
 }
