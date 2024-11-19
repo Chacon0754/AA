@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int *originalarr = NULL;
+int *originalArr = NULL;
 int *arr = NULL;
 long long exchanges;
 long long comparisons;
@@ -20,6 +20,7 @@ void quickSort(int low, int high);
 int partition(int low, int high);
 void showArray(int size);
 void readFile(char filename[20]);
+void fillSemiSortedArray(int arr[], int n);
 
 int main(int argc, char const *argv[])
 {
@@ -35,6 +36,7 @@ int main(int argc, char const *argv[])
         printf("1. bestCase.txt\n");
         printf("2. AverageCase.txt\n");
         printf("3. WorstCase.txt\n");
+        printf("4. SemiSorted Array\n");
         printf("0. Salir\n");
         printf("Opcion: ");
         scanf("%d", &option);
@@ -49,6 +51,20 @@ int main(int argc, char const *argv[])
             case 3:
                 snprintf(filename, sizeof(filename), "WorstCase.txt");
                 break;
+            case 4:
+                printf("Generando arreglo semiordenado...\n");
+                totalElements = testSizes[numTests - 1];
+                originalArr = (int *)malloc(totalElements * sizeof(int));
+                if (originalArr == NULL)
+                {
+                    printf("No se pudo asignar memoria para el arreglo.\n");
+                    continue;
+                }
+
+                srand(time(0));
+                fillSemiSortedArray(originalArr, totalElements);
+                printf("Arreglo semiordenado generado.\n");
+            break;
             case 0:
                 printf("Saliendo del programa\n");
                 return 0;
@@ -59,7 +75,7 @@ int main(int argc, char const *argv[])
 
         readFile(filename);
 
-        if (originalarr == NULL){
+        if (originalArr == NULL){
             printf("Error al leer el archivo o al asignar memoria\n");
             continue;
         }
@@ -76,7 +92,7 @@ int main(int argc, char const *argv[])
 
             for (int j = 0; j < arraySize; j++)
             {
-                arr[j] = originalarr[j];
+                arr[j] = originalArr[j];
             }
 
             printf("Probando con arreglo de tamano: %d\n", arraySize);
@@ -101,8 +117,8 @@ int main(int argc, char const *argv[])
             arr = NULL;
         }
 
-        free(originalarr);
-        originalarr = NULL;
+        free(originalArr);
+        originalArr = NULL;
         system("pause");
         system("cls");
 
@@ -163,8 +179,8 @@ void readFile(char filename[20]){
         totalElements++;
     }
 
-    originalarr = (int *)malloc(totalElements * sizeof(int));
-    if (originalarr == NULL){
+    originalArr = (int *)malloc(totalElements * sizeof(int));
+    if (originalArr == NULL){
         printf("No se pudo asignar memoria para el arreglo\n");
         fclose(file);
         return;
@@ -172,8 +188,25 @@ void readFile(char filename[20]){
 
     rewind(file);
     for (int i = 0; i < totalElements; i++){
-        fscanf(file, "%d", &originalarr[i]);
+        fscanf(file, "%d", & originalArr[i]);
     }
 
     fclose(file);
+}
+void fillSemiSortedArray(int arr[], int n)
+{
+    int blockSize = n / 10; // Tamaño del bloque como 10% del arreglo
+    int lowerBound, upperBound;
+
+    for (int i = 0; i < n; i += blockSize)
+    {
+        lowerBound = i;
+        upperBound = i + blockSize - 1;
+
+        // Llenar el bloque con valores aleatorios dentro del rango
+        for (int j = i; j < i + blockSize && j < n; j++)
+        {
+            arr[j] = (rand() % blockSize) + lowerBound;
+        }
+    }
 }
